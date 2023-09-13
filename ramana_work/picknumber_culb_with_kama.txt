@@ -1,0 +1,43 @@
+Filename:open_change_id
+
+ubuntu@ip-172-31-42-132:~/ramana_work$ cat open_change_id
+Hi Ramana
+
+refs/changes/12/137712/1 && git cherry-pick FETCH_HEAD
+
+refs/changes/82/206282/1 && git cherry-pick FETCH_HEAD
+
+refs/changes/15/137715/1 && git cherry-pick FETCH_HEAD
+
+
+ubuntu@ip-172-31-42-132:~/ramana_work$ cat open_change_id | grep -o 'refs/changes/*/[^ ]*' | awk -F '/' '{print $4,$5}'
+137712 1
+206282 1
+137715 1
+ubuntu@ip-172-31-42-132:~/ramana_work$
+
+
+Filename: final.sh
+
+ubuntu@ip-172-31-42-132:~/ramana_work$ cat final.sh
+#!/bin/bash
+
+#separate change_id and review number and save in file
+cat open_change_id | grep -o 'refs/changes/*/[^ ]*' | awk -F '/' '{print $4,$5}' >> final_output.txt
+
+#separate change_id and review number with kama (,) 
+sed -i 's/ /,/g' final_output.txt
+
+#The final output
+cat final_output.txt
+
+
+ubuntu@ip-172-31-42-132:~/ramana_work$
+ubuntu@ip-172-31-42-132:~/ramana_work$
+ubuntu@ip-172-31-42-132:~/ramana_work$
+ubuntu@ip-172-31-42-132:~/ramana_work$ ./final.sh
+137712,1
+206282,1
+137715,1
+ubuntu@ip-172-31-42-132:~/ramana_work$
+
